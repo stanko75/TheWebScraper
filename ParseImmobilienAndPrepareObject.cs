@@ -23,6 +23,7 @@ namespace TheWebScraper
                 ImmobilienProperties = new Dictionary<string, string>();
 
                 string propertiesLink = homePage + link.Attributes["href"].Value;
+                ImmobilienProperties["link"] = propertiesLink;
 
                 HtmlWeb propertyWeb = new HtmlWeb();
                 HtmlDocument htmlPropertyDoc = propertyWeb.Load(propertiesLink);
@@ -32,12 +33,8 @@ namespace TheWebScraper
                 ImmobilienProperties[Constants.Db.title] = titles[0].InnerText;
 
                 //etage
-                string etageVon = "0";
-                string etageBis = "0";
                 string dbType = "";
                 HtmlNodeCollection types = htmlPropertyDoc.DocumentNode.SelectNodes("//div/div/div/div/div/div/div/div/dl");
-                ImmobilienProperties[Constants.Db.etageNummer] = etageVon;
-                ImmobilienProperties[Constants.Db.etageVon] = etageBis;
 
                 foreach (HtmlNode type in types)
                 {
@@ -47,19 +44,7 @@ namespace TheWebScraper
                         && !type.InnerText.Contains(Constants.Html.typ)
                     )
                     {
-                        string[] etagen = type.InnerText.Trim().Split(' ');
-                        if (etagen.Length > 3)
-                        {
-                            etageVon = string.IsNullOrWhiteSpace(etagen[3]) ? "0" : etagen[3];
-                            etageBis = string.IsNullOrWhiteSpace(etagen[4]) ? "0" : etagen[4];
-                        }
-                        else
-                        {
-                            etageVon = string.IsNullOrWhiteSpace(etagen[2]) ? "0" : etagen[2];
-                        }
-                        ImmobilienProperties[Constants.Db.etageNummer] = etageVon;
-                        ImmobilienProperties[Constants.Db.etageVon] = etageBis;
-
+                        GetParsedHtml(type, Constants.Html.etage, Constants.Db.typ, new int[] { 2 }, ImmobilienProperties);
                     }
 
                     //Typ
@@ -91,15 +76,12 @@ namespace TheWebScraper
 
         private void GetParsedHtml(HtmlNode type, string htmlName, string dbName, int[] indexes, Dictionary<string, string> immobilienProperties)
         {
-            Type htmlType = Type.GetType("Foo");
-
+            Type htmlType = Type.GetType("TheWebScraper." + htmlName);
             if (htmlType is null)
             {
                 htmlType = typeof(BaseParsingClass);
-                //BaseParsingClass baseParsingClass = htmlType;
-                //((BaseParsingClass)htmlType).GetParsedHtml(type, htmlName, dbName, indexes);
             }
-
+            
             MethodInfo methodInfo = htmlType.GetMethod("GetParsedHtml");
             object classInstance = Activator.CreateInstance(htmlType, null);
 

@@ -17,15 +17,15 @@
         }
         public static class Html
         {
-            public const string etage = "etage";
+            public const string etage = "Etage";
             public const string etagenheizung = "etagenheizung";
-            public const string typ = "typ";
-            public const string wohnflaeche = "wohnfläche";
-            public const string bezugsfrei = "bezugsfrei";
-            public const string bonitaetsauskunft = "bonitätsauskunft";
-            public const string zimmer = "zimmer";
-            public const string kaltmiete = "kaltmiete";
-            public const string nebenkosten = "nebenkosten";
+            public const string typ = "Typ";
+            public const string wohnflaeche = "Wohnfläche ";
+            public const string bezugsfrei = "Bezugsfrei ";
+            public const string bonitaetsauskunft = "Bonitätsauskunft";
+            public const string zimmer = "Zimmer";
+            public const string kaltmiete = "Kaltmiete";
+            public const string nebenkosten = "Nebenkosten";
         }
     }
 }
