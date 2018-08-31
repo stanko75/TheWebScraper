@@ -1,11 +1,11 @@
 ﻿using HtmlAgilityPack;
 using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
 using System.Net;
 using System.Configuration;
 using System.Collections.Specialized;
+using System.Collections.Generic;
 
 namespace TheWebScraper
 {
@@ -24,11 +24,18 @@ namespace TheWebScraper
                 properties.ParseAndReturnObject(links.Get(link), homePage);
             }
 
-            foreach(var tt in properties.ListOfImmobilienProperties)
+            DbManagement dbManagement = new DbManagement();
+
+            foreach (Dictionary<string, string> immobilienProperties in properties.ListOfImmobilienProperties)
             {
+                dbManagement.CreateSqlQuery(immobilienProperties);
+
+                /*
                 Console.WriteLine("Title: " + tt[Constants.Db.title]);
                 Console.WriteLine("Etage: " + tt[Constants.Db.etageNummer] + " von " + tt[Constants.Db.etageVon]);
+                */
             }
+
 
             Console.ReadKey();
 
