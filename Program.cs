@@ -26,8 +26,8 @@ namespace TheWebScraper
 
             foreach(var tt in properties.ListOfImmobilienProperties)
             {
-                Console.WriteLine("Title: " + tt[Constants.title]);
-                Console.WriteLine("Etage: " + tt[Constants.etageNummer] + " von " + tt[Constants.etageVon]);
+                Console.WriteLine("Title: " + tt[Constants.Db.title]);
+                Console.WriteLine("Etage: " + tt[Constants.Db.etageNummer] + " von " + tt[Constants.Db.etageVon]);
             }
 
             Console.ReadKey();
