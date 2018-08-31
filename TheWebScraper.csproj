@@ -46,8 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BaseParsingClass.cs" />
-    <Compile Include="Etage.cs" />
+    <Compile Include="parsers\BaseParsingClass.cs" />
+    <Compile Include="parsers\Etage.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="ParseImmobilienAndPrepareObject.cs" />
     <Compile Include="Program.cs" />
