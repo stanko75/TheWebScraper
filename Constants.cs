@@ -14,6 +14,7 @@
             public const string zimmer = "zimmer";
             public const string kaltmiete = "kaltmiete";
             public const string nebenkosten = "nebenkosten";
+            public const string gesamtmiete = "gesamtmiete";
         }
         public static class Html
         {
@@ -26,6 +27,7 @@
             public const string zimmer = "Zimmer";
             public const string kaltmiete = "Kaltmiete";
             public const string nebenkosten = "Nebenkosten";
+            public const string gesamtmiete = "Gesamtmiete";
         }
     }
 }

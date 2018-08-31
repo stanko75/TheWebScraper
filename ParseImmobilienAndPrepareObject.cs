@@ -28,6 +28,8 @@ namespace TheWebScraper
                 HtmlWeb propertyWeb = new HtmlWeb();
                 HtmlDocument htmlPropertyDoc = propertyWeb.Load(propertiesLink);
 
+                ImmobilienProperties["html"] = htmlPropertyDoc.DocumentNode.InnerHtml;
+
                 //title
                 HtmlNodeCollection titles = htmlPropertyDoc.DocumentNode.SelectNodes("//div/div/div/div/div/h1");
                 ImmobilienProperties[Constants.Db.title] = titles[0].InnerText;
@@ -39,13 +41,7 @@ namespace TheWebScraper
                 foreach (HtmlNode type in types)
                 {
                     //Etage
-                    if (type.InnerText.Contains(Constants.Html.etage)
-                        && !type.InnerText.Contains(Constants.Html.etagenheizung)
-                        && !type.InnerText.Contains(Constants.Html.typ)
-                    )
-                    {
-                        GetParsedHtml(type, Constants.Html.etage, Constants.Db.typ, new int[] { 2 }, ImmobilienProperties);
-                    }
+                    GetParsedHtml(type, Constants.Html.etage, Constants.Db.typ, new int[] { 2 }, ImmobilienProperties);
 
                     //Typ
                     GetParsedHtml(type, Constants.Html.typ, Constants.Db.typ, new int[] { 2 }, ImmobilienProperties);
@@ -67,6 +63,9 @@ namespace TheWebScraper
 
                     //Nebenkosten
                     GetParsedHtml(type, Constants.Html.nebenkosten, Constants.Db.nebenkosten, new int[] { 3 }, ImmobilienProperties);
+
+                    //Gesamtmiete
+                    GetParsedHtml(type, Constants.Html.gesamtmiete, Constants.Db.gesamtmiete, new int[] { 3 }, ImmobilienProperties);
 
                     dbType = type.InnerText;
                 }
