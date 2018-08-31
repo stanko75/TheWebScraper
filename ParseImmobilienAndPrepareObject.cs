@@ -65,7 +65,7 @@ namespace TheWebScraper
                     GetParsedHtml(type, Constants.Html.nebenkosten, Constants.Db.nebenkosten, new int[] { 3 }, ImmobilienProperties);
 
                     //Gesamtmiete
-                    GetParsedHtml(type, Constants.Html.gesamtmiete, Constants.Db.gesamtmiete, new int[] { 3 }, ImmobilienProperties);
+                    GetParsedHtml(type, Constants.Html.gesamtmiete, Constants.Db.gesamtmiete, new int[] { 2 }, ImmobilienProperties);
 
                     dbType = type.InnerText;
                 }

@@ -9,7 +9,7 @@ namespace TheWebScraper
         {
             foreach (int index in indexes)
             {
-                if (type.InnerText.ToLower().Contains(htmlName.ToLower()))
+                if (type.InnerText.Trim().ToLower().Contains(htmlName.ToLower()))
                 {
                     string[] typ = type.InnerText.Trim().Split(' ');
                     immobilienProperties[dbName] = typ[index];
