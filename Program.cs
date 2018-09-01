@@ -28,7 +28,7 @@ namespace TheWebScraper
 
             foreach (Dictionary<string, string> immobilienProperties in properties.ListOfImmobilienProperties)
             {
-                dbManagement.CreateSqlQuery(immobilienProperties);
+                dbManagement.CreateInsert(immobilienProperties);
 
                 /*
                 Console.WriteLine("Title: " + tt[Constants.Db.title]);
