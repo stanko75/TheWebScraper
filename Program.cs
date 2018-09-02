@@ -6,6 +6,7 @@ using System.Net;
 using System.Configuration;
 using System.Collections.Specialized;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace TheWebScraper
 {
@@ -36,117 +37,117 @@ namespace TheWebScraper
                 */
             }
 
-
+            Console.WriteLine("Press any key");
             Console.ReadKey();
 
             ////////////////////////////////////////
 
-            string immobilienscoutUrl = links.Get("link1");
+            //string immobilienscoutUrl = links.Get("link1");
 
-            HtmlWeb immobilienscoutWeb = new HtmlWeb();
+            //HtmlWeb immobilienscoutWeb = new HtmlWeb();
 
-            HtmlDocument htmlDoc = immobilienscoutWeb.Load(immobilienscoutUrl);
+            //HtmlDocument htmlDoc = immobilienscoutWeb.Load(immobilienscoutUrl);
 
-            HtmlNodeCollection nodeCollectionLinks = htmlDoc.DocumentNode.SelectNodes("//article/div/div/div/div/a");
-            string path = @"c:\tmp";
-            string fileName = path + @"\tmp.txt";
-            StreamWriter sw = File.CreateText(fileName);
+            //HtmlNodeCollection nodeCollectionLinks = htmlDoc.DocumentNode.SelectNodes("//article/div/div/div/div/a");
+            //string path = @"c:\tmp";
+            //string fileName = path + @"\tmp.txt";
+            //StreamWriter sw = File.CreateText(fileName);
 
-            string connectionString = ConfigurationManager.ConnectionStrings["myConn"].ConnectionString;
-            SqlConnection cn = new SqlConnection(connectionString);
-            SqlCommand insertCommand;
-            cn.Open();
-            //ServerConnection svrConnection = new ServerConnection(cn);
-            //Server server = new Server(svrConnection);
+            //string connectionString = ConfigurationManager.ConnectionStrings["myConn"].ConnectionString;
+            //SqlConnection cn = new SqlConnection(connectionString);
+            //SqlCommand insertCommand;
+            //cn.Open();
+            ////ServerConnection svrConnection = new ServerConnection(cn);
+            ////Server server = new Server(svrConnection);
 
-            //File.WriteAllLines(fileNmae, nodes.ToString());
+            ////File.WriteAllLines(fileNmae, nodes.ToString());
 
-            WebClient client = new WebClient();
+            //WebClient client = new WebClient();
 
-            int i = 0;
-            foreach (HtmlNode link in nodeCollectionLinks)
-            {
-                i++;
+            //int i = 0;
+            //foreach (HtmlNode link in nodeCollectionLinks)
+            //{
+            //    i++;
 
-                string propertiesLink = homePage + link.Attributes["href"].Value;
-                string dbTitle = "";
-                string dbType = "";
-                string etageVon = "0";
-                string etageBis = "0";
+            //    string propertiesLink = homePage + link.Attributes["href"].Value;
+            //    string dbTitle = "";
+            //    string dbType = "";
+            //    string etageVon = "0";
+            //    string etageBis = "0";
 
-                Console.WriteLine("OuterHtml: " + propertiesLink);
+            //    Console.WriteLine("OuterHtml: " + propertiesLink);
 
-                HtmlWeb propertyWeb = new HtmlWeb();
-                HtmlDocument htmlPropertyDoc = propertyWeb.Load(propertiesLink);
-                HtmlNodeCollection titles = htmlPropertyDoc.DocumentNode.SelectNodes("//div/div/div/div/div/h1");
+            //    HtmlWeb propertyWeb = new HtmlWeb();
+            //    HtmlDocument htmlPropertyDoc = propertyWeb.Load(propertiesLink);
+            //    HtmlNodeCollection titles = htmlPropertyDoc.DocumentNode.SelectNodes("//div/div/div/div/div/h1");
 
-                foreach (var title in titles)
-                {
-                    Console.WriteLine("Title: " + title.InnerText);
-                    dbTitle = title.InnerText;
-                }
+            //    foreach (var title in titles)
+            //    {
+            //        Console.WriteLine("Title: " + title.InnerText);
+            //        dbTitle = title.InnerText;
+            //    }
 
-                HtmlNodeCollection types = htmlPropertyDoc.DocumentNode.SelectNodes("//div/div/div/div/div/div/div/div/dl");
-                foreach (var type in types)
-                {
-                    Console.WriteLine("Type: " + type.InnerText);
-                    if (type.InnerText.Contains("Etage") && !(type.InnerText.Contains("Etagenheizung")))
-                    {
-                        string[] etagen = type.InnerText.Split(' ');
-                        etageVon = string.IsNullOrWhiteSpace(etagen[3]) ? "0" : etagen[3];
-                        etageBis = string.IsNullOrWhiteSpace(etagen[5]) ? "0" : etagen[5];
-                    }
-                    dbType = type.InnerText;
-                }
+            //    HtmlNodeCollection types = htmlPropertyDoc.DocumentNode.SelectNodes("//div/div/div/div/div/div/div/div/dl");
+            //    foreach (var type in types)
+            //    {
+            //        Console.WriteLine("Type: " + type.InnerText);
+            //        if (type.InnerText.Contains("Etage") && !(type.InnerText.Contains("Etagenheizung")))
+            //        {
+            //            string[] etagen = type.InnerText.Split(' ');
+            //            etageVon = string.IsNullOrWhiteSpace(etagen[3]) ? "0" : etagen[3];
+            //            etageBis = string.IsNullOrWhiteSpace(etagen[5]) ? "0" : etagen[5];
+            //        }
+            //        dbType = type.InnerText;
+            //    }
 
-                int intEtageVon = 0;
-                int intEtageBis = 0;
+            //    int intEtageVon = 0;
+            //    int intEtageBis = 0;
 
-                int.TryParse(etageVon, out intEtageVon);
-                int.TryParse(etageBis, out intEtageBis);
+            //    int.TryParse(etageVon, out intEtageVon);
+            //    int.TryParse(etageBis, out intEtageBis);
 
-                string checkIfLinkExists = $"select link from immobilien where link = '{propertiesLink}'";
-                SqlCommand selectCommand = new SqlCommand(checkIfLinkExists, cn);
-                SqlDataReader selectReader = selectCommand.ExecuteReader();
+            //    string checkIfLinkExists = $"select link from immobilien where link = '{propertiesLink}'";
+            //    SqlCommand selectCommand = new SqlCommand(checkIfLinkExists, cn);
+            //    SqlDataReader selectReader = selectCommand.ExecuteReader();
 
-                if (!selectReader.Read())
-                {
-                    selectReader.Close();
-                    string insertCommandString = $"insert into immobilien (link, title, etageVon, etageBis, inserted, updated) values (" +
-                        "@propertiesLink, @dbTitle, @etageVon, @etageBis, @inserted, @updated)";
-                    insertCommand = new SqlCommand(insertCommandString, cn);
+            //    if (!selectReader.Read())
+            //    {
+            //        selectReader.Close();
+            //        string insertCommandString = $"insert into immobilien (link, title, etageVon, etageBis, inserted, updated) values (" +
+            //            "@propertiesLink, @dbTitle, @etageVon, @etageBis, @inserted, @updated)";
+            //        insertCommand = new SqlCommand(insertCommandString, cn);
 
-                    insertCommand.Parameters.AddWithValue("@propertiesLink", propertiesLink);
-                    insertCommand.Parameters.AddWithValue("@dbTitle", dbTitle);
-                    insertCommand.Parameters.AddWithValue("@etageVon", intEtageVon.ToString());
-                    insertCommand.Parameters.AddWithValue("@etageBis", intEtageBis.ToString());
-                    insertCommand.Parameters.AddWithValue("@inserted", DateTime.Now);
-                    insertCommand.Parameters.AddWithValue("@updated", DateTime.Now);
+            //        insertCommand.Parameters.AddWithValue("@propertiesLink", propertiesLink);
+            //        insertCommand.Parameters.AddWithValue("@dbTitle", dbTitle);
+            //        insertCommand.Parameters.AddWithValue("@etageVon", intEtageVon.ToString());
+            //        insertCommand.Parameters.AddWithValue("@etageBis", intEtageBis.ToString());
+            //        insertCommand.Parameters.AddWithValue("@inserted", DateTime.Now);
+            //        insertCommand.Parameters.AddWithValue("@updated", DateTime.Now);
 
-                    insertCommand.ExecuteNonQuery();
-                }
-                else
-                {
-                    selectReader.Close();
+            //        insertCommand.ExecuteNonQuery();
+            //    }
+            //    else
+            //    {
+            //        selectReader.Close();
 
-                    string updateCommandString = $"update immobilien set updated = @updated where link = @propertiesLink";
+            //        string updateCommandString = $"update immobilien set updated = @updated where link = @propertiesLink";
 
-                    SqlCommand updateCommand;
+            //        SqlCommand updateCommand;
 
-                    updateCommand = new SqlCommand(updateCommandString, cn);
+            //        updateCommand = new SqlCommand(updateCommandString, cn);
 
-                    updateCommand.Parameters.AddWithValue("@propertiesLink", propertiesLink);
-                    updateCommand.Parameters.AddWithValue("@updated", DateTime.Now);
+            //        updateCommand.Parameters.AddWithValue("@propertiesLink", propertiesLink);
+            //        updateCommand.Parameters.AddWithValue("@updated", DateTime.Now);
 
-                    updateCommand.ExecuteNonQuery();
-                }
+            //        updateCommand.ExecuteNonQuery();
+            //    }
 
-            }
+            //}
 
-            cn.Close();
+            //cn.Close();
 
-            Console.WriteLine("Press any key");
-            Console.ReadKey();
+            //Console.WriteLine("Press any key");
+            //Console.ReadKey();
         }
     }
 }

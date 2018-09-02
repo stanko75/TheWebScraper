@@ -39,7 +39,22 @@ namespace TheWebScraper
                 {
                     Debug.WriteLine("property.Key: " + property.Key + ", property.Value: " + property.Value);
                 }
-                insertCommand.Parameters.AddWithValue("@" + property.Key, property.Value.Replace(".", string.Empty));
+
+                if ((property.Key == "wohnflaeche") 
+                    || (property.Key == "gesamtmiete") 
+                    || (property.Key == "kaltmiete")
+                    || (property.Key == "zimmer")
+                    || (property.Key == "nebenkosten")
+                )
+                {
+                    decimal value = 0;
+                    decimal.TryParse(property.Value, out value);
+                    insertCommand.Parameters.AddWithValue("@" + property.Key, value);
+                }
+                else
+                {
+                    insertCommand.Parameters.AddWithValue("@" + property.Key, property.Value.Replace(".", string.Empty));
+                }
             }
 
             insertCommand.ExecuteNonQuery();

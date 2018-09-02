@@ -51,6 +51,7 @@
     <Compile Include="parsers\Etage.cs" />
     <Compile Include="Constants.cs" />
     <Compile Include="ParseImmobilienAndPrepareObject.cs" />
+    <Compile Include="parsers\Kaltmiete.cs" />
     <Compile Include="parsers\Nebenkosten.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
