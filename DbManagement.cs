@@ -53,7 +53,8 @@ namespace TheWebScraper
                 }
                 else
                 {
-                    insertCommand.Parameters.AddWithValue("@" + property.Key, property.Value.Replace(".", string.Empty));
+                    insertCommand.Parameters.AddWithValue("@" + property.Key, property.Value/*.Replace(".", string.Empty)*/
+                        );
                 }
             }
 

@@ -53,6 +53,7 @@
     <Compile Include="ParseImmobilienAndPrepareObject.cs" />
     <Compile Include="parsers\Kaltmiete.cs" />
     <Compile Include="parsers\Nebenkosten.cs" />
+    <Compile Include="parsers\Typ.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
