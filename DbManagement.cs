@@ -11,7 +11,7 @@ namespace TheWebScraper
 {
     public class DbManagement
     {
-        public string CreateInsert(Dictionary<string, string> immobilienProperties)
+        public void InsertIntoDb(Dictionary<string, string> immobilienProperties)
         {
             IOrderedEnumerable<KeyValuePair<string, string>> immobilienPropertiesOrdered = immobilienProperties.OrderBy(order => order.Key);
 
@@ -40,11 +40,11 @@ namespace TheWebScraper
                     Debug.WriteLine("property.Key: " + property.Key + ", property.Value: " + property.Value);
                 }
 
-                if ((property.Key == Constants.Html.wohnflaeche.ToLower()) 
-                    || (property.Key == Constants.Html.gesamtmiete.ToLower()) 
-                    || (property.Key == Constants.Html.kaltmiete.ToLower())
-                    || (property.Key == Constants.Html.zimmer.ToLower())
-                    || (property.Key == Constants.Html.nebenkosten.ToLower())
+                if ((property.Key == Constants.Db.wohnflaeche.ToLower()) 
+                    || (property.Key == Constants.Db.gesamtmiete.ToLower()) 
+                    || (property.Key == Constants.Db.kaltmiete.ToLower())
+                    || (property.Key == Constants.Db.zimmer.ToLower())
+                    || (property.Key == Constants.Db.nebenkosten.ToLower())
                 )
                 {
                     decimal value = 0;
@@ -58,24 +58,7 @@ namespace TheWebScraper
             }
 
             insertCommand.ExecuteNonQuery();
-            //InsertIntoDb(sql);
-            return sql;
         }
 
-        public void InsertIntoDb(string sql)
-        {
-            string connectionString = ConfigurationManager.ConnectionStrings["myConn"].ConnectionString;
-
-            SqlConnection conn = new SqlConnection(connectionString);
-
-            conn.Open();
-
-            SqlCommand insertCommand = new SqlCommand(sql, conn);
-
-            foreach (var parameter in insertCommand.Parameters)
-            {
-                Debug.WriteLine("test");
-            }
-        }
     }
 }
