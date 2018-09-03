@@ -23,6 +23,9 @@ namespace TheWebScraper
                 values = string.IsNullOrWhiteSpace(values) ? "@" + property.Key : values + ", " + "@" + property.Key;
             }
 
+            fieldNames = fieldNames + ", [inserted], [updated]";
+            values = values + ", @inserted, @updated";
+
             string sql = "INSERT INTO[dbo].[immobilien] (" + fieldNames + ") VALUES (" + values + ")";
 
             string connectionString = ConfigurationManager.ConnectionStrings["myConn"].ConnectionString;
@@ -56,6 +59,9 @@ namespace TheWebScraper
                     insertCommand.Parameters.AddWithValue("@" + property.Key, property.Value);
                 }
             }
+
+            insertCommand.Parameters.AddWithValue("@inserted", DateTime.Now);
+            insertCommand.Parameters.AddWithValue("@updated", DateTime.Now);
 
             insertCommand.ExecuteNonQuery();
         }
