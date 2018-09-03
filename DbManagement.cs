@@ -40,11 +40,11 @@ namespace TheWebScraper
                     Debug.WriteLine("property.Key: " + property.Key + ", property.Value: " + property.Value);
                 }
 
-                if ((property.Key == "wohnflaeche") 
-                    || (property.Key == "gesamtmiete") 
-                    || (property.Key == "kaltmiete")
-                    || (property.Key == "zimmer")
-                    || (property.Key == "nebenkosten")
+                if ((property.Key == Constants.Html.wohnflaeche.ToLower()) 
+                    || (property.Key == Constants.Html.gesamtmiete.ToLower()) 
+                    || (property.Key == Constants.Html.kaltmiete.ToLower())
+                    || (property.Key == Constants.Html.zimmer.ToLower())
+                    || (property.Key == Constants.Html.nebenkosten.ToLower())
                 )
                 {
                     decimal value = 0;
@@ -53,8 +53,7 @@ namespace TheWebScraper
                 }
                 else
                 {
-                    insertCommand.Parameters.AddWithValue("@" + property.Key, property.Value/*.Replace(".", string.Empty)*/
-                        );
+                    insertCommand.Parameters.AddWithValue("@" + property.Key, property.Value);
                 }
             }
 
