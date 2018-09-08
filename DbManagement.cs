@@ -11,6 +11,33 @@ namespace TheWebScraper
 {
     public class DbManagement
     {
+        private SqlConnection DbConnection
+        {
+            get
+            {
+                string connectionString = ConfigurationManager.ConnectionStrings["myConn"].ConnectionString;
+                return new SqlConnection(connectionString); 
+            }
+        }
+
+
+        public bool PropertyExists(string propertiesLink)
+        {
+            string checkIfLinkExists = $"select link from immobilien where link = '{propertiesLink}'";
+            SqlConnection cn = DbConnection;
+
+            cn.Open();
+
+            SqlCommand selectCommand = new SqlCommand(checkIfLinkExists, cn);
+            SqlDataReader selectReader = selectCommand.ExecuteReader();
+
+            bool exists = selectReader.Read();
+
+            cn.Close();
+
+            return exists;
+        }
+
         public void InsertIntoDb(Dictionary<string, string> immobilienProperties)
         {
             IOrderedEnumerable<KeyValuePair<string, string>> immobilienPropertiesOrdered = immobilienProperties.OrderBy(order => order.Key);
@@ -30,7 +57,7 @@ namespace TheWebScraper
 
             string connectionString = ConfigurationManager.ConnectionStrings["myConn"].ConnectionString;
 
-            SqlConnection conn = new SqlConnection(connectionString);
+            SqlConnection conn = DbConnection;
 
             conn.Open();
 
@@ -66,5 +93,24 @@ namespace TheWebScraper
             insertCommand.ExecuteNonQuery();
         }
 
+        internal void UpdateDb(string propertiesLink)
+        {
+            string updateCommandString = $"update immobilien set updated = @updated where link = @propertiesLink";
+
+            SqlCommand updateCommand;
+
+            SqlConnection cn = DbConnection;
+
+            cn.Open();
+
+            updateCommand = new SqlCommand(updateCommandString, cn);
+            updateCommand.Parameters.AddWithValue("@propertiesLink", propertiesLink);
+            updateCommand.Parameters.AddWithValue("@updated", DateTime.Now);
+
+
+            updateCommand.ExecuteNonQuery();
+
+            cn.Close();
+        }
     }
 }

@@ -21,7 +21,6 @@ namespace TheWebScraper
 
             foreach (string link in links)
             {
-                //if ()
                 properties.ParseAndReturnObject(links.Get(link), homePage);
             }
 
@@ -29,7 +28,14 @@ namespace TheWebScraper
 
             foreach (Dictionary<string, string> immobilienProperties in properties.ListOfImmobilienProperties)
             {
-                dbManagement.InsertIntoDb(immobilienProperties);
+                if (dbManagement.PropertyExists(immobilienProperties["link"]))
+                {
+                    dbManagement.UpdateDb(immobilienProperties["link"]);
+                }
+                else
+                {
+                    dbManagement.InsertIntoDb(immobilienProperties);
+                }
 
                 /*
                 Console.WriteLine("Title: " + tt[Constants.Db.title]);
