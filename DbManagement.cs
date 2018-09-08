@@ -105,10 +105,21 @@ namespace TheWebScraper
             updateCommand.Parameters.AddWithValue("@propertiesLink", propertiesLink);
             updateCommand.Parameters.AddWithValue("@updated", DateTime.Now);
 
-
             updateCommand.ExecuteNonQuery();
 
             cn.Close();
+        }
+
+        public void UpdateOrInsert(Dictionary<string, string> ImmobilienProperties)
+        {
+            if (PropertyExists(ImmobilienProperties["link"]))
+            {
+                UpdateDb(ImmobilienProperties["link"]);
+            }
+            else
+            {
+                InsertIntoDb(ImmobilienProperties);
+            }
         }
     }
 }

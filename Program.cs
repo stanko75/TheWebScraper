@@ -19,19 +19,19 @@ namespace TheWebScraper
                 properties.ParseAndReturnObject(links.Get(link), homePage);
             }
 
-            DbManagement dbManagement = new DbManagement();
+            //DbManagement dbManagement = new DbManagement();
 
-            foreach (Dictionary<string, string> immobilienProperties in properties.ListOfImmobilienProperties)
-            {
-                if (dbManagement.PropertyExists(immobilienProperties["link"]))
-                {
-                    dbManagement.UpdateDb(immobilienProperties["link"]);
-                }
-                else
-                {
-                    dbManagement.InsertIntoDb(immobilienProperties);
-                }
-            }
+            //foreach (Dictionary<string, string> immobilienProperties in properties.ListOfImmobilienProperties)
+            //{
+            //    if (dbManagement.PropertyExists(immobilienProperties["link"]))
+            //    {
+            //        dbManagement.UpdateDb(immobilienProperties["link"]);
+            //    }
+            //    else
+            //    {
+            //        dbManagement.InsertIntoDb(immobilienProperties);
+            //    }
+            //}
 
             Console.WriteLine("Press any key");
             Console.ReadKey();

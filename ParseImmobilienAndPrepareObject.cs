@@ -7,12 +7,14 @@ namespace TheWebScraper
 {
     class ParseImmobilienAndPrepareObject
     {
-        public List<Dictionary<string, string>> ListOfImmobilienProperties;
+        //public List<Dictionary<string, string>> ListOfImmobilienProperties;
         public Dictionary<string, string> ImmobilienProperties;
 
         public void ParseAndReturnObject(string immobilienscoutUrl, string homePage)
         {
-            ListOfImmobilienProperties = new List<Dictionary<string, string>>();
+            //ListOfImmobilienProperties = new List<Dictionary<string, string>>();
+
+            Console.WriteLine(DateTime.Now + " Page: " + immobilienscoutUrl);
 
             HtmlWeb immobilienscoutWeb = new HtmlWeb();
             HtmlDocument htmlDoc = immobilienscoutWeb.Load(immobilienscoutUrl);
@@ -24,6 +26,7 @@ namespace TheWebScraper
             {
                 nextPageUrl = divNode.Attributes["href"].Value;
                 nextPageUrl = homePage + nextPageUrl;
+                Console.WriteLine(DateTime.Now + " Page: " + nextPageUrl);
             }
 
             while (!string.IsNullOrWhiteSpace(nextPageUrl))
@@ -39,6 +42,7 @@ namespace TheWebScraper
                     {
                         nextPageUrl = divNode.Attributes["href"].Value;
                         nextPageUrl = homePage + nextPageUrl;
+                        Console.WriteLine(DateTime.Now + " Page: " + nextPageUrl);
                     }
                 }
             }
@@ -123,11 +127,15 @@ namespace TheWebScraper
                             dbType = type.InnerText;
                         }
                     }
-                    ListOfImmobilienProperties.Add(ImmobilienProperties);
+                    //ListOfImmobilienProperties.Add(ImmobilienProperties);
+
+                    DbManagement dbManagement = new DbManagement();
+
+                    dbManagement.UpdateOrInsert(ImmobilienProperties);
                 }
-                catch
+                catch (Exception e)
                 {
-                    
+                    Console.WriteLine(DateTime.Now + " Link: " + propertiesLink + ", Exception: " + e.Message);
                 }
             }
         }

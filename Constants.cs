@@ -22,8 +22,8 @@
             public const string etage = "Etage";
             public const string etagenheizung = "etagenheizung";
             public const string typ = "Typ";
-            public const string wohnflaeche = "Wohnfläche ";
-            public const string bezugsfrei = "Bezugsfrei ";
+            public const string wohnflaeche = "Wohnfläche";
+            public const string bezugsfrei = "Bezugsfrei";
             public const string bonitaetsauskunft = "Bonitätsauskunft";
             public const string zimmer = "Zimmer";
             public const string kaltmiete = "Kaltmiete";
