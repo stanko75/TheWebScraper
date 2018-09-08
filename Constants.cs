@@ -15,6 +15,7 @@
             public const string kaltmiete = "kaltmiete";
             public const string nebenkosten = "nebenkosten";
             public const string gesamtmiete = "gesamtmiete";
+            public const string address = "address";
         }
         public static class Html
         {

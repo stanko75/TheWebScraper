@@ -69,6 +69,17 @@ namespace TheWebScraper
                 string dbType = "";
                 HtmlNodeCollection types = htmlPropertyDoc.DocumentNode.SelectNodes("//div/div/div/div/div/div/div/div/dl");
 
+                HtmlNodeCollection address = htmlPropertyDoc.DocumentNode.SelectNodes("//div/div/div/div/div/span/div");
+
+                string strAddress = " ";
+
+                foreach (HtmlNode ndAddress in address)
+                {
+                    strAddress = strAddress + " " + ndAddress.InnerText;
+                }
+
+                ImmobilienProperties[Constants.Db.address] = strAddress;
+
                 foreach (HtmlNode type in types)
                 {
                     //Etage
