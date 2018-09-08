@@ -53,65 +53,82 @@ namespace TheWebScraper
             {
                 ImmobilienProperties = new Dictionary<string, string>();
 
-                string propertiesLink = homePage + link.Attributes["href"].Value;
+                string propertiesLink = link.Attributes["href"].Value;
+
+                if (!propertiesLink.Contains(homePage))
+                {
+                    propertiesLink = homePage + link.Attributes["href"].Value;
+                }
+
                 ImmobilienProperties["link"] = propertiesLink;
 
                 HtmlWeb propertyWeb = new HtmlWeb();
-                HtmlDocument htmlPropertyDoc = propertyWeb.Load(propertiesLink);
-
-                ImmobilienProperties["html"] = htmlPropertyDoc.DocumentNode.InnerHtml;
-
-                //title
-                HtmlNodeCollection titles = htmlPropertyDoc.DocumentNode.SelectNodes("//div/div/div/div/div/h1");
-                ImmobilienProperties[Constants.Db.title] = titles[0].InnerText;
-
-                //etage
-                string dbType = "";
-                HtmlNodeCollection types = htmlPropertyDoc.DocumentNode.SelectNodes("//div/div/div/div/div/div/div/div/dl");
-
-                HtmlNodeCollection address = htmlPropertyDoc.DocumentNode.SelectNodes("//div/div/div/div/div/span/div");
-
-                string strAddress = " ";
-
-                foreach (HtmlNode ndAddress in address)
+                try
                 {
-                    strAddress = strAddress + " " + ndAddress.InnerText;
+                    HtmlDocument htmlPropertyDoc = propertyWeb.Load(propertiesLink);
+
+                    ImmobilienProperties["html"] = htmlPropertyDoc.DocumentNode.InnerHtml;
+
+                    //title
+                    HtmlNodeCollection titles = htmlPropertyDoc.DocumentNode.SelectNodes("//div/div/div/div/div/h1");
+                    ImmobilienProperties[Constants.Db.title] = titles[0].InnerText;
+
+                    //etage
+                    string dbType = "";
+                    HtmlNodeCollection types = htmlPropertyDoc.DocumentNode.SelectNodes("//div/div/div/div/div/div/div/div/dl");
+
+                    HtmlNodeCollection address = htmlPropertyDoc.DocumentNode.SelectNodes("//div/div/div/div/div/span/div");
+
+                    string strAddress = " ";
+
+                    foreach (HtmlNode ndAddress in address)
+                    {
+                        strAddress = strAddress + " " + ndAddress.InnerText;
+                    }
+
+                    ImmobilienProperties[Constants.Db.address] = strAddress;
+
+                    if (!(types is null))
+                    {
+
+                        foreach (HtmlNode type in types)
+                        {
+                            //Etage
+                            ParseHtml(type, Constants.Html.etage, Constants.Db.typ, new int[] { 2 }, ImmobilienProperties);
+
+                            //Typ
+                            ParseHtml(type, Constants.Html.typ, Constants.Db.typ, new int[] { 2 }, ImmobilienProperties);
+
+                            //Wohnflaeche
+                            ParseHtml(type, Constants.Html.wohnflaeche, Constants.Db.wohnflaeche, new int[] { 3 }, ImmobilienProperties);
+
+                            //Bezugsfrei 
+                            ParseHtml(type, Constants.Html.bezugsfrei, Constants.Db.bezugsfrei, new int[] { 3 }, ImmobilienProperties);
+
+                            //Bonitätsauskunft
+                            ParseHtml(type, Constants.Html.bonitaetsauskunft, Constants.Db.bonitaetsauskunft, new int[] { 2 }, ImmobilienProperties);
+
+                            //Zimmer
+                            ParseHtml(type, Constants.Html.zimmer, Constants.Db.zimmer, new int[] { 2 }, ImmobilienProperties);
+
+                            //Kaltmiete
+                            ParseHtml(type, Constants.Html.kaltmiete, Constants.Db.kaltmiete, new int[] { 2 }, ImmobilienProperties);
+
+                            //Nebenkosten
+                            ParseHtml(type, Constants.Html.nebenkosten, Constants.Db.nebenkosten, new int[] { 3 }, ImmobilienProperties);
+
+                            //Gesamtmiete
+                            ParseHtml(type, Constants.Html.gesamtmiete, Constants.Db.gesamtmiete, new int[] { 2 }, ImmobilienProperties);
+
+                            dbType = type.InnerText;
+                        }
+                    }
+                    ListOfImmobilienProperties.Add(ImmobilienProperties);
                 }
-
-                ImmobilienProperties[Constants.Db.address] = strAddress;
-
-                foreach (HtmlNode type in types)
+                catch
                 {
-                    //Etage
-                    ParseHtml(type, Constants.Html.etage, Constants.Db.typ, new int[] { 2 }, ImmobilienProperties);
-
-                    //Typ
-                    ParseHtml(type, Constants.Html.typ, Constants.Db.typ, new int[] { 2 }, ImmobilienProperties);
-
-                    //Wohnflaeche
-                    ParseHtml(type, Constants.Html.wohnflaeche, Constants.Db.wohnflaeche, new int[] { 3 }, ImmobilienProperties);
-
-                    //Bezugsfrei 
-                    ParseHtml(type, Constants.Html.bezugsfrei, Constants.Db.bezugsfrei, new int[] { 3 }, ImmobilienProperties);
-
-                    //Bonitätsauskunft
-                    ParseHtml(type, Constants.Html.bonitaetsauskunft, Constants.Db.bonitaetsauskunft, new int[] { 2 }, ImmobilienProperties);
-
-                    //Zimmer
-                    ParseHtml(type, Constants.Html.zimmer, Constants.Db.zimmer, new int[] { 2 }, ImmobilienProperties);
-
-                    //Kaltmiete
-                    ParseHtml(type, Constants.Html.kaltmiete, Constants.Db.kaltmiete, new int[] { 2 }, ImmobilienProperties);
-
-                    //Nebenkosten
-                    ParseHtml(type, Constants.Html.nebenkosten, Constants.Db.nebenkosten, new int[] { 3 }, ImmobilienProperties);
-
-                    //Gesamtmiete
-                    ParseHtml(type, Constants.Html.gesamtmiete, Constants.Db.gesamtmiete, new int[] { 2 }, ImmobilienProperties);
-
-                    dbType = type.InnerText;
+                    
                 }
-                ListOfImmobilienProperties.Add(ImmobilienProperties);
             }
         }
 
