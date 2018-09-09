@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Configuration;
 using System.Collections.Specialized;
-using System.Collections.Generic;
 
 namespace TheWebScraper
 {
