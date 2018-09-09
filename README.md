@@ -3,7 +3,7 @@
 Small example of using HtmlAgilityPack and reflections:
 
 
-```
+```csharp
 private void ParseHtml(HtmlNode type, string htmlName, string dbName, int[] indexes, Dictionary<string, string> immobilienProperties)
 {
 	Type htmlType = Type.GetType("TheWebScraper." + htmlName);
